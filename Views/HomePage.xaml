@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ColorMorph.Views.HomePage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+
+            <Label
+                Text="Welcome to ColorMorph"
+                FontSize="24"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Button
+                x:Name="OpenImgBtn"
+                Text="Open Image" 
+                SemanticProperties.Hint="Open a image from your gallery"
+                HorizontalOptions="Fill" />
+                <!--Clicked="OpenImageCommand"-->
+
+            <Button
+                x:Name="TakePhotoBtn"
+                Text="Take a Photo" 
+                SemanticProperties.Hint="Take a photo with your camera"
+                HorizontalOptions="Fill" />
+                <!--Clicked="TakePhotoCommand"-->
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
+
