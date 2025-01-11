@@ -23,15 +23,15 @@
                 x:Name="OpenImgBtn"
                 Text="Open Image" 
                 SemanticProperties.Hint="Open a image from your gallery"
+                Command="{Binding OpenImageCommand}"
                 HorizontalOptions="Fill" />
-                <!--Clicked="OpenImageCommand"-->
 
             <Button
                 x:Name="TakePhotoBtn"
                 Text="Take a Photo" 
                 SemanticProperties.Hint="Take a photo with your camera"
+                Command="{Binding TakePhotoCommand}"
                 HorizontalOptions="Fill" />
-                <!--Clicked="TakePhotoCommand"-->
         </VerticalStackLayout>
     </ScrollView>
 

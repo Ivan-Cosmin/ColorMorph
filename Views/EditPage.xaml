@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ColorMorph.Views.EditPage"
+             Title="Edit Image">
+    <ContentPage.Content>
+        <StackLayout Padding="10,20,10,40">
+            <Image 
+                Source="{Binding ImageSource}" 
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand" />
+
+            <CollectionView 
+                ItemsSource="{Binding Categories}" 
+                SelectionMode="Single"
+                Margin="10,0,10,10"
+                VerticalOptions="End">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                            Padding="10" 
+                            Margin="5" 
+                            BackgroundColor="LightGray" 
+                            StrokeShape="RoundRectangle 10">
+                            <Label 
+                                Text="{Binding Name}" 
+                                FontSize="16" 
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center" />
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
