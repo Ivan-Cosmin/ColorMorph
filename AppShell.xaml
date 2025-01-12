@@ -12,4 +12,9 @@
         ContentTemplate="{DataTemplate views:HomePage }"
         Route="Views.HomePage" />
 
+    <ShellContent
+        Title="History"
+        ContentTemplate="{DataTemplate views:HistoryPage }"
+        Route="Views.HistoryPage" />
+
 </Shell>

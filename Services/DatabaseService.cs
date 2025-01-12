@@ -21,4 +21,9 @@ public class DatabaseService
     {
         return _db.Find<ImageEntity>(id);
     }
+
+    public List<ImageEntity> GetAllImages()
+    {
+        return _db.Table<ImageEntity>().ToList();
+    }
 }

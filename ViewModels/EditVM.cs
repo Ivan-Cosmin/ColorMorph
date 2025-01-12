@@ -1,8 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Input;
 using ColorMorph.Services;
-using Microsoft.Maui.Controls;
+using Plugin.LocalNotification;
 
 namespace ColorMorph.ViewModels
 {
@@ -94,6 +93,15 @@ namespace ColorMorph.ViewModels
             {
                 File.WriteAllBytes(filePath, _processedImage.Data);
                 Console.WriteLine($"Image saved to {filePath}");
+
+                // Create and show notification
+                var notification = new NotificationRequest
+                {
+                    Title = "Image Saved",
+                    Description = $"Image saved to {filePath}",
+                    NotificationId = 1000
+                };
+                LocalNotificationCenter.Current.Show(notification);
             }
             catch (Exception ex)
             {
