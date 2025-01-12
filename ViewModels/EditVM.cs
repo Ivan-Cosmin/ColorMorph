@@ -59,11 +59,11 @@ namespace ColorMorph.ViewModels
 
         private void SaveImageOnDB()
         {
-            var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "images.db");
-            var dbService = new DatabaseService(dbPath);
-
             try
             {
+                var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "images.db");
+                var dbService = new DatabaseService(dbPath);
+
                 int id = dbService.SaveImage(_processedImage.Name, _processedImage.Data);
 
                 if (id >= 0)
@@ -83,14 +83,14 @@ namespace ColorMorph.ViewModels
 
         private void SaveImageOnDevice()
         {
-            var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "ColorMorphImages");
-            Directory.CreateDirectory(folderPath); // Ensure the folder is created
-
-            var fileName = $"{_processedImage.Name}_{DateTime.Now:yyyyMMddHHmmss}.png";
-            var filePath = Path.Combine(folderPath, fileName);
-
             try
             {
+                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "ColorMorphImages");
+                Directory.CreateDirectory(folderPath); // Ensure the folder is created
+
+                var fileName = $"{_processedImage.Name}_{DateTime.Now:yyyyMMddHHmmss}.png";
+                var filePath = Path.Combine(folderPath, fileName);
+
                 File.WriteAllBytes(filePath, _processedImage.Data);
                 Console.WriteLine($"Image saved to {filePath}");
 
@@ -111,31 +111,66 @@ namespace ColorMorph.ViewModels
 
         private void SaveImage()
         {
-            SaveImageOnDB();
-            SaveImageOnDevice();
+            try
+            {
+                SaveImageOnDB();
+                SaveImageOnDevice();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving image: {ex.Message}");
+            }
         }
 
         private void ResetImage()
         {
-            ShowOriginal();
-            _processedImage = new ImageEntity { Data = _originalImage.Data };
+            try
+            {
+                ShowOriginal();
+                _processedImage = new ImageEntity { Data = _originalImage.Data };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error resetting image: {ex.Message}");
+            }
         }
         private void ShowOriginal()
         {
-            ImageSource = ImageSource.FromStream(()=> new MemoryStream(_originalImage.Data));
+            try
+            {
+                ImageSource = ImageSource.FromStream(() => new MemoryStream(_originalImage.Data));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error showing original image: {ex.Message}");
+            }
         }
 
         private void ShowProccesed()
         {
-            ImageSource = ImageSource.FromStream(() =>  new MemoryStream(_processedImage.Data));
+            try
+            {
+                ImageSource = ImageSource.FromStream(() => new MemoryStream(_processedImage.Data));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error showing processed image: {ex.Message}");
+            }
         }
 
         private void ApplyImageProcessing(Func<byte[], byte[]> processingFunction)
         {
-            var imageBytes = _processedImage.Data;
-            _processedImage.Data = processingFunction(imageBytes);
-            var processedBytes = _processedImage.Data;
-            ImageSource = ImageSource.FromStream(() => new MemoryStream(processedBytes));
+            try
+            {
+                var imageBytes = _processedImage.Data;
+                _processedImage.Data = processingFunction(imageBytes);
+                var processedBytes = _processedImage.Data;
+                ImageSource = ImageSource.FromStream(() => new MemoryStream(processedBytes));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error applying image processing: {ex.Message}");
+            }
         }
 
     }

@@ -10,68 +10,116 @@ namespace ColorMorph.Services
     {
         public static byte[] ApplyGrayscale(byte[] inputImageBytes)
         {
-            using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
-            using var grayMat = new Mat();
-            CvInvoke.CvtColor(mat, grayMat, ColorConversion.Bgr2Gray);
+            try
+            {
+                using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
+                using var grayMat = new Mat();
+                CvInvoke.CvtColor(mat, grayMat, ColorConversion.Bgr2Gray);
 
-            return ConvertMatToSkiaPng(grayMat);
+                return ConvertMatToSkiaPng(grayMat);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error applying grayscale", ex);
+            }
         }
 
         public static byte[] ApplyBlur(byte[] inputImageBytes)
         {
-            using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
-            using var blurredMat = new Mat();
-            CvInvoke.GaussianBlur(mat, blurredMat, new System.Drawing.Size(15, 15), 0);
+            try
+            {
+                using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
+                using var blurredMat = new Mat();
+                CvInvoke.GaussianBlur(mat, blurredMat, new System.Drawing.Size(15, 15), 0);
 
-            return ConvertMatToSkiaPng(blurredMat);
+                return ConvertMatToSkiaPng(blurredMat);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error applying blur", ex);
+            }
         }
 
         public static byte[] DetectEdges(byte[] inputImageBytes)
         {
-            using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
-            using var grayMat = new Mat();
-            CvInvoke.CvtColor(mat, grayMat, ColorConversion.Bgr2Gray);
+            try
+            {
+                using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
+                using var grayMat = new Mat();
+                CvInvoke.CvtColor(mat, grayMat, ColorConversion.Bgr2Gray);
 
-            using var edgeMat = new Mat();
-            CvInvoke.Canny(grayMat, edgeMat, 100, 200);
+                using var edgeMat = new Mat();
+                CvInvoke.Canny(grayMat, edgeMat, 100, 200);
 
-            return ConvertMatToSkiaPng(edgeMat);
+                return ConvertMatToSkiaPng(edgeMat);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error detecting edges", ex);
+            }
         }
 
         public static byte[] DetectFaces(byte[] inputImageBytes)
         {
-            using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
-            using var grayMat = new Mat();
-            CvInvoke.CvtColor(mat, grayMat, ColorConversion.Bgr2Gray);
-
-            var faceCascade = new CascadeClassifier("haarcascade_frontalface_default.xml");
-            var faces = faceCascade.DetectMultiScale(grayMat, 1.1, 10, new System.Drawing.Size(20, 20));
-
-            foreach (var face in faces)
+            try
             {
-                CvInvoke.Rectangle(mat, face, new MCvScalar(0, 255, 0), 2);
-            }
+                using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
+                using var grayMat = new Mat();
+                CvInvoke.CvtColor(mat, grayMat, ColorConversion.Bgr2Gray);
 
-            return ConvertMatToSkiaPng(mat);
+                var faceCascade = new CascadeClassifier("haarcascade_frontalface_default.xml");
+                var faces = faceCascade.DetectMultiScale(grayMat, 1.1, 10, new System.Drawing.Size(20, 20));
+
+                foreach (var face in faces)
+                {
+                    CvInvoke.Rectangle(mat, face, new MCvScalar(0, 255, 0), 2);
+                }
+
+                return ConvertMatToSkiaPng(mat);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error detecting faces", ex);
+            }
         }
 
         // Helper pentru încărcarea imaginii din byte[] în Mat
         private static Mat LoadMatFromBytes(byte[] imageBytes, ImreadModes mode)
         {
-            var mat = new Mat();
-            CvInvoke.Imdecode(imageBytes, mode, mat);
-            return mat;
+            try
+            {
+                var mat = new Mat();
+                CvInvoke.Imdecode(imageBytes, mode, mat);
+                return mat;
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error loading image from bytes", ex);
+            }
         }
 
         // Conversia Mat -> byte[] (PNG) folosind SkiaSharp
         private static byte[] ConvertMatToSkiaPng(Mat mat)
         {
-            using var image = mat.ToImage<Bgr, byte>();
-            var skBitmap = SKBitmap.Decode(image.ToJpegData());
-            using var skImage = SKImage.FromBitmap(skBitmap);
-            using var data = skImage.Encode(SKEncodedImageFormat.Png, 100);
+            try
+            {
+                using var image = mat.ToImage<Bgr, byte>();
+                var skBitmap = SKBitmap.Decode(image.ToJpegData());
+                using var skImage = SKImage.FromBitmap(skBitmap);
+                using var data = skImage.Encode(SKEncodedImageFormat.Png, 100);
 
-            return data.ToArray();
+                return data.ToArray();
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error converting Mat to PNG", ex);
+            }
         }
     }
 }
