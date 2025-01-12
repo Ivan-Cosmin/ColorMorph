@@ -13,7 +13,8 @@ public class DatabaseService
     public int SaveImage(string name, byte[] data)
     {
         var image = new ImageEntity { Name = name, Data = data };
-        return _db.Insert(image);
+        _db.Insert(image);
+        return image.Id;
     }
 
     public ImageEntity GetImage(int id)

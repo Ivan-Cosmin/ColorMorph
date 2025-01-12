@@ -6,14 +6,77 @@
              BackgroundColor="#f5f5f5">
     <ContentPage.Content>
         <StackLayout Padding="20" Spacing="20">
-            
-            <!-- Title -->
-            <Label 
-                Text="Edit Your Image" 
-                FontSize="24" 
-                FontAttributes="Bold" 
-                HorizontalOptions="Center" 
-                TextColor="#333" />
+
+            <Grid ColumnSpacing="5" Padding="2,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button 
+                    Text="Original" 
+                    FontSize="14" 
+                    FontAttributes="Bold" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand" 
+                    Padding="10" 
+                    MinimumHeightRequest="50"
+                    MinimumWidthRequest="80"
+                    Grid.Column="0" 
+                    TextColor="White" 
+                    BackgroundColor="#4CAF50"
+                    CornerRadius="10"
+                    Command="{Binding ShowOriginalImageCommand}"/>
+
+                <Button 
+                    Text="Processed" 
+                    FontSize="14" 
+                    FontAttributes="Bold" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand" 
+                    Padding="10" 
+                    MinimumHeightRequest="50"
+                    MinimumWidthRequest="80"
+                    Grid.Column="1" 
+                    TextColor="White" 
+                    BackgroundColor="#4CAF50"
+                    CornerRadius="10"
+                    Command="{Binding ShowProccesedImageCommand}"/>
+
+                <Button 
+                    Text="Reset" 
+                    FontSize="14" 
+                    FontAttributes="Bold" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand" 
+                    Padding="10" 
+                    MinimumHeightRequest="50"
+                    MinimumWidthRequest="80"
+                    Grid.Column="2" 
+                    TextColor="White" 
+                    BackgroundColor="#FF5722"
+                    CornerRadius="10"
+                    Command="{Binding ResetImageCommand}"/>
+
+                <Button 
+                    Text="Save" 
+                    FontSize="14" 
+                    FontAttributes="Bold" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand" 
+                    Padding="10" 
+                    MinimumHeightRequest="50"
+                    MinimumWidthRequest="80"
+                    Grid.Column="3" 
+                    TextColor="White" 
+                    BackgroundColor="#2196F3"
+                    CornerRadius="10"
+                    Command="{Binding SaveImageCommand}"/>
+            </Grid>
+
+
 
             <!-- Images -->
             <Border 

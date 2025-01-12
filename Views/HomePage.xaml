@@ -27,10 +27,10 @@
                 HorizontalOptions="Fill" />
 
             <Button
-                x:Name="TakePhotoBtn"
-                Text="Take a Photo" 
+                x:Name="GetRandomPhotoBtn"
+                Text="Get Random Photo" 
                 SemanticProperties.Hint="Take a photo with your camera"
-                Command="{Binding TakePhotoCommand}"
+                Command="{Binding GetRandomImageCommand}"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
