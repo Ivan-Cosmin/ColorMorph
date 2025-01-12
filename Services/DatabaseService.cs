@@ -1,23 +1,23 @@
 ﻿using SQLite;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ColorMorph.Models;
 
-namespace ColorMorph.Services
+public class DatabaseService
 {
-    public class DatabaseService
+    private readonly SQLiteConnection _db;
+
+    public DatabaseService(string dbPath)
     {
-        private readonly SQLiteAsyncConnection _database;
+        _db = new SQLiteConnection(dbPath);
+        _db.CreateTable<ImageEntity>();
+    }
 
-        public DatabaseService(string dbPath)
-        {
-            _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<ImageRecord>().Wait();
-        }
+    public int SaveImage(string name, byte[] data)
+    {
+        var image = new ImageEntity { Name = name, Data = data };
+        return _db.Insert(image);
+    }
 
-        public Task<int> SaveImageRecordAsync(ImageRecord record) => _database.InsertAsync(record);
-
-        public Task<List<ImageRecord>> GetImageRecordsAsync() => _database.Table<ImageRecord>().ToListAsync();
-
+    public ImageEntity GetImage(int id)
+    {
+        return _db.Find<ImageEntity>(id);
     }
 }

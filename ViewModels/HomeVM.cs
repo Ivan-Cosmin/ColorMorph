@@ -29,20 +29,42 @@ namespace ColorMorph.ViewModels
                 if (result != null)
                 {
                     var stream = await result.OpenReadAsync();
-                    var editVM = new EditVM(stream);
+                    using var memoryStream = new MemoryStream();
+                    await stream.CopyToAsync(memoryStream);
+                    var imageData = memoryStream.ToArray();
+
+                    // Salvăm imaginea în baza de date
+                    var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "images.db");
+                    var dbService = new DatabaseService(dbPath);
+                    var imageId = dbService.SaveImage(result.FileName, imageData);
+
+                    // Creăm ViewModel-ul pentru pagina de editare
+                    var savedImage = dbService.GetImage(imageId);
+                    var editVM = new EditVM(new MemoryStream(savedImage.Data), savedImage);
                     var editPage = new EditPage(editVM);
-                    await App.Current.MainPage.Navigation.PushAsync(editPage);
+
+                    // Navigăm către pagina de editare
+                    var mainPage = App.Current?.Windows[0]?.Page;
+                    if (mainPage != null)
+                    {
+                        await mainPage.Navigation.PushAsync(editPage);
+                    }
+                    else
+                    {
+                        await App.Current?.Windows[0]?.Page?.DisplayAlert("Error", "Main page is not available", "OK");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                await App.Current?.Windows[0]?.Page?.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
 
+
         private async void TakePhoto()
         {
-            await App.Current.MainPage.DisplayAlert("Info", "Take Photo Command Executed", "OK");
+            await App.Current?.Windows[0]?.Page?.DisplayAlert("Info", "Take Photo Command Executed", "OK");
         }
     }
 }
