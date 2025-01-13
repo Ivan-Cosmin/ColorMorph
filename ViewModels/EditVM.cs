@@ -54,6 +54,7 @@ namespace ColorMorph.ViewModels
                 new Category { Name = "ApplyBlur", Command = new Command(() => ApplyImageProcessing(ImageProcessingService.ApplyBlur)) },
                 new Category { Name = "DetectEdges", Command = new Command(() => ApplyImageProcessing(ImageProcessingService.DetectEdges)) },
                 new Category { Name = "DetectFaces", Command = new Command(() => ApplyImageProcessing(ImageProcessingService.DetectFaces)) },
+                new Category { Name = "Invert", Command = new Command(() => ApplyImageProcessing(ImageProcessingService.Invert)) },
             };
         }
 

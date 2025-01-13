@@ -87,6 +87,23 @@ namespace ColorMorph.Services
             }
         }
 
+        public static byte[] Invert(byte[] inputImageBytes)
+        {
+            try
+            {
+                using var mat = LoadMatFromBytes(inputImageBytes, ImreadModes.Color);
+                using var invertedMat = new Mat();
+                CvInvoke.BitwiseNot(mat, invertedMat);
+
+                return ConvertMatToSkiaPng(invertedMat);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log it, rethrow it, etc.)
+                throw new ApplicationException("Error inverting image colors", ex);
+            }
+        }
+
         // Helper pentru încărcarea imaginii din byte[] în Mat
         private static Mat LoadMatFromBytes(byte[] imageBytes, ImreadModes mode)
         {

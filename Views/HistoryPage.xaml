@@ -12,7 +12,7 @@
     <CollectionView ItemsSource="{Binding Images}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Image Source="{Binding ImageSource}" HeightRequest="100" WidthRequest="100" />
+                <Image Source="{Binding ImageSource}" HeightRequest="300" WidthRequest="300" />
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
